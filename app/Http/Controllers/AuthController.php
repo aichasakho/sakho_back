@@ -51,11 +51,13 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        Auth::guard('web')->logout();
+
         $request->user()->tokens->each(function ($token) {
             $token->delete();
         });
 
-        return response()->json(['message' => 'Déconnexion réussie']);
+        return response()->json(['message' => 'Déconnexion réussie'], 200);
     }
 
 }

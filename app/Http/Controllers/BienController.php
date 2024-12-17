@@ -25,11 +25,14 @@ class BienController extends Controller
             'disponible' => 'boolean',
             'type' => 'required|string|in:appartement,studio,magasin,terrain,maison',
             'imagePath' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'nombre_douches' => 'nullable|integer',
+            'nombre_chambres' => 'nullable|integer',
+            'superficie' => 'nullable|numeric',
         ]);
 
-        $data = $request->only('titre', 'description', 'prix', 'disponible', 'type');
+        $data = $request->only('titre', 'description', 'prix', 'disponible', 'type', 'nombre_douches', 'nombre_chambres', 'superficie');
 
-        // Traitement de l'image
+
         if ($request->hasFile('imagePath')) {
             $data['imagePath'] = $request->file('imagePath')->store('images', 'public');
         }
@@ -38,6 +41,7 @@ class BienController extends Controller
         return response()->json($bien, 201);
     }
 
+
     public function show(Bien $bien) {
         return $bien;
     }
@@ -45,25 +49,29 @@ class BienController extends Controller
     public function update(Request $request, $id)
     {
         $bien = Bien::find($id);
-    if (!$bien) {
-        return response()->json(['message' => 'Bien non trouvé'], 404);
-    }
+        if (!$bien) {
+            return response()->json(['message' => 'Bien non trouvé'], 404);
+        }
 
-    dd($request->all());
-
-    $request->validate([
-        'titre' => 'required|string',
-        'description' => 'required|string',
-        'prix' => 'required|numeric',
-        'type' => 'required|string',
-        'imagePath' => 'nullable|image',
-    ]);
+        $request->validate([
+            'titre' => 'required|string',
+            'description' => 'required|string',
+            'prix' => 'required|numeric',
+            'type' => 'required|string',
+            'imagePath' => 'nullable|image',
+            'nombre_douches' => 'nullable|integer',
+            'nombre_chambres' => 'nullable|integer',
+            'superficie' => 'nullable|numeric',
+        ]);
 
         $bien->titre = $request->input('titre');
         $bien->description = $request->input('description');
         $bien->prix = $request->input('prix');
         $bien->type = $request->input('type');
         $bien->disponible = $request->input('disponible', false);
+        $bien->nombre_douches = $request->input('nombre_douches');
+        $bien->nombre_chambres = $request->input('nombre_chambres');
+        $bien->superficie = $request->input('superficie');
 
         if ($request->hasFile('imagePath')) {
             if ($bien->imagePath) {
@@ -76,6 +84,7 @@ class BienController extends Controller
 
         return response()->json(['message' => 'Bien mis à jour avec succès'], 200);
     }
+
 
 
 
@@ -95,7 +104,6 @@ class BienController extends Controller
 
     public function appeler(Request $request, Bien $bien)
     {
-        // Récupérer les informations nécessaires (agent, coordonnées de l'utilisateur, etc.)
         $agent = $bien->agent;
         $utilisateur = [
             'nom' => $request->input('nom'),
@@ -103,7 +111,6 @@ class BienController extends Controller
             'telephone' => $request->input('telephone')
         ];
 
-        // Envoyer un email à l'agent
         Mail::to($agent->email)->send(new AppelBien($bien, $utilisateur));
 
         return response()->json(['message' => 'Demande d\'appel envoyée avec succès']);}

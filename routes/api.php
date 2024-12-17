@@ -22,13 +22,14 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::post('/login', [UserController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
-Route::post('/register', [UserController::class, 'register']);
+//Route::post('/login', [UserController::class, 'login']);
+//Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
+//Route::post('/register', [UserController::class, 'register']);
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::post('logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+;
 
 
 //Biens

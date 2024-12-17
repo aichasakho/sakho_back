@@ -18,7 +18,10 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('prix', 10, 2);
             $table->boolean('disponible')->default(true);
-            $table->string('type')->default(''); // Exemple de valeur par défaut
+            $table->string('type')->default('');
+            $table->integer('nombre_douches')->nullable();
+            $table->integer('nombre_chambres')->nullable();
+            $table->decimal('superficie', 8, 2)->nullable();
             $table->timestamps();
         });
     }
