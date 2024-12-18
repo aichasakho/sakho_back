@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\BienController;
+
 use App\Http\Controllers\ContactController;
+
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
@@ -55,3 +57,4 @@ Route::post('/biens/{bien}/appeler', [BienController::class, 'appeler'])->name('
 Route::post('/biens/{bien}/contacter', [BienController::class, 'contacter'])->name('biens.contacter');
 
 Route::post('/contact', [ContactController::class, 'sendMessage']);
+
