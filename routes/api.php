@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
@@ -25,6 +27,21 @@ use Illuminate\Support\Facades\Route;
 //Route::post('/login', [UserController::class, 'login']);
 //Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 //Route::post('/register', [UserController::class, 'register']);
+
+
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::get('admin/dashboard', [AdminController::class, 'dashboard']);
+    Route::apiResource('users', UserController::class);
+});
+
+Route::middleware(['auth:sanctum', 'role:super_admin'])->group(function () {
+    Route::get('super-admin/dashboard', [SuperAdminController::class, 'dashboard']);
+});
+
+Route::middleware(['auth:sanctum', 'role:user'])->group(function () {
+    Route::post('reservations', [ReservationController::class, 'store']);
+});
+
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
