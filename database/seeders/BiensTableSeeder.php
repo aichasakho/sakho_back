@@ -16,8 +16,8 @@ class BiensTableSeeder extends Seeder
             DB::table('biens')->insert([
                 'titre' => $faker->sentence(3),
                 'description' => $faker->paragraph,
-                'prix' => $faker->numberBetween(80000, 10000000),
-                'superficie' => $faker->numberBetween(20, 500),
+                'prix' => $faker->numberBetween(80000, 90000000),
+                'superficie' => $faker->numberBetween(20, 2000),
                 'nombre_chambres' => $faker->numberBetween(1, 12),
                 'nombre_douches' => $faker->numberBetween(1, 6),
                 'disponible' => $faker->boolean,
