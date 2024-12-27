@@ -32,13 +32,15 @@ class AuthController extends Controller
             'nom_complet' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
+            'role' => 'in:user,admin,super_admin',
         ]);
 
         $user = User::create([
             'nom_complet' => $validatedData['nom_complet'],
             'email' => $validatedData['email'],
             'password' => bcrypt($validatedData['password']),
-            'role' => 'user',
+            'role' => $validatedData['role'] ?? 'user',
+
         ]);
 
         $token = $user->createToken('MyApp')->plainTextToken;

@@ -85,10 +85,6 @@ class BienController extends Controller
         return response()->json(['message' => 'Bien mis à jour avec succès'], 200);
     }
 
-
-
-
-
     public function destroy($id)
     {
         $bien = Bien::find($id);

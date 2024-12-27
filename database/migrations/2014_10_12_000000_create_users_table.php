@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('est_bloque')->default(false);
-            $table->string('role')->default('user');
+            $table->enum('role', ['user', 'admin', 'super_admin'])->default('user');
             $table->string('telephone')->nullable();
             $table->text('adresse')->nullable();
             $table->string('langue')->default('fr');
