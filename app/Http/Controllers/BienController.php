@@ -3,21 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bien;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\AppelBien;
 use App\Models\Contact;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class BienController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         return Bien::all();
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'titre' => 'required|string|max:255',
             'description' => 'required|string',
@@ -42,7 +45,8 @@ class BienController extends Controller
     }
 
 
-    public function show(Bien $bien) {
+    public function show(Bien $bien)
+    {
         return $bien;
     }
 
@@ -75,7 +79,7 @@ class BienController extends Controller
 
         if ($request->hasFile('imagePath')) {
             if ($bien->imagePath) {
-                \Storage::delete('public/' . $bien->imagePath);
+                Storage::delete('public/' . $bien->imagePath);
             }
             $bien->imagePath = $request->file('imagePath')->store('images', 'public');
         }
@@ -90,6 +94,9 @@ class BienController extends Controller
         $bien = Bien::find($id);
         if ($bien) {
             $bien->delete();
+            if ($bien->imagePath){
+                Storage::delete('public/' . $bien->imagePath);
+            }
             return response()->json(['message' => 'Bien supprimé avec succès'], 200);
         } else {
             return response()->json(['message' => 'Bien non trouvé'], 404);
@@ -109,7 +116,8 @@ class BienController extends Controller
 
         Mail::to($agent->email)->send(new AppelBien($bien, $utilisateur));
 
-        return response()->json(['message' => 'Demande d\'appel envoyée avec succès']);}
+        return response()->json(['message' => 'Demande d\'appel envoyée avec succès']);
+    }
 
     public function contacter(Request $request, Bien $bien)
     {
@@ -127,15 +135,14 @@ class BienController extends Controller
     public function location()
     {
 
-        $bien = Bien::all()->where('type_annonce','location')->get();
+        $bien = Bien::all()->where('type_annonce', 'location')->get();
         return response()->json($bien);
     }
 
     public function vente()
     {
 
-        $bien = Bien::all()->where('type_annonce','vente')->get();
+        $bien = Bien::all()->where('type_annonce', 'vente')->get();
         return response()->json($bien);
     }
-
 }

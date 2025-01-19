@@ -22,7 +22,7 @@ class BiensTableSeeder extends Seeder
                 'nombre_douches' => $faker->numberBetween(1, 6),
                 'disponible' => $faker->boolean,
                 'type_annonce' => $faker->randomElement(['vente', 'location']),
-                'imagePath' => 'images/' . $faker->word . '.jpg',
+                'imagePath' => "images/image.jpg",
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
