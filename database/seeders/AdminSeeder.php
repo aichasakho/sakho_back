@@ -12,7 +12,7 @@ class AdminSeeder extends Seeder
     {
         if (!User::where('email', 'admin@gmail.com')->exists()) {
             User::create([
-                'nom_complet' => 'Admin Bocoum',
+                'nom_complet' => 'sakho',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('admin123'),
                 'role' => 'admin',

@@ -121,8 +121,21 @@ class BienController extends Controller
             'message' => $request->input('message')
         ]);
 
-        return response()->json(['message' => 'Demande de contact envoyée avec succès']);}
+        return response()->json(['message' => 'Demande de contact envoyée avec succès']);
+    }
 
+    public function location()
+    {
 
+        $bien = Bien::all()->where('type_annonce','location')->get();
+        return response()->json($bien);
+    }
+
+    public function vente()
+    {
+
+        $bien = Bien::all()->where('type_annonce','vente')->get();
+        return response()->json($bien);
+    }
 
 }

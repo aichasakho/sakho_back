@@ -58,7 +58,10 @@ Route::put('/biens/{id}', [BienController::class, 'update']);
 Route::post('/biens', [BienController::class, 'store']);
 Route::delete('/biens/{id}', [BienController::class, 'destroy']);
 
-// Rooutes for users
+Route::get('locationBien', [\App\Http\Controllers\BienController::class, 'location']);
+Route::get('venteBien', [\App\Http\Controllers\BienController::class, 'vente']);
+
+// Routes for users
 Route::get('users', [\App\Http\Controllers\UserController::class, 'index']);
 Route::get('users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
 Route::put('users/{id}', [\App\Http\Controllers\UserController::class, 'update']);
@@ -69,9 +72,10 @@ Route::post('utilisateur/{id}/debloquer', [UserController::class, 'debloquer']);
 //Reservation
 Route::post('reservations', [ReservationController::class, 'store']);
 
-//contact
+//contacter
 Route::post('/biens/{bien}/appeler', [BienController::class, 'appeler'])->name('biens.appeler');
 Route::post('/biens/{bien}/contacter', [BienController::class, 'contacter'])->name('biens.contacter');
+
 
 Route::post('/contact', [ContactController::class, 'sendMessage']);
 
