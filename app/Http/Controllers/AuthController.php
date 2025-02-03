@@ -12,18 +12,27 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+        
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            $token = $user->createToken('MyApp')->plainTextToken;
-
+            $user = Auth::user();  
+            $token = $user->createToken('YourAppName')->plainTextToken;  
+            
+           
             return response()->json([
                 'message' => 'Connexion réussie',
                 'token' => $token,
+                'user' => [
+                    'id' => $user->id,
+                    'nom_complet' => $user->nom_complet,
+                    'email' => $user->email,
+                    'role' => $user->role  
+                ]
             ]);
         }
 
-        return response()->json(['message' => 'Identifiants incorrects'], 401);
+        return response()->json([
+            'message' => 'Identifiants invalides'
+        ], 401);
     }
 
     public function register(Request $request)
