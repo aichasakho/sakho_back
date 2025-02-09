@@ -54,9 +54,10 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 
 //Biens
 Route::apiResource('biens', BienController::class);
-Route::put('/biens/{id}', [BienController::class, 'update']);
-Route::post('/biens', [BienController::class, 'store']);
-Route::delete('/biens/{id}', [BienController::class, 'destroy']);
+//Route::put('/biens/{id}', [BienController::class, 'update']);
+//Route::post('/biens', [BienController::class, 'store']);
+//Route::delete('/biens/{id}', [BienController::class, 'destroy']);
+Route::apiResource('update',\App\Http\Controllers\UpdateController::class);
 
 Route::get('locationBien', [\App\Http\Controllers\BienController::class, 'location']);
 Route::get('venteBien', [\App\Http\Controllers\BienController::class, 'vente']);
