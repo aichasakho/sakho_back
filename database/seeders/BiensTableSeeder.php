@@ -13,6 +13,8 @@ class BiensTableSeeder extends Seeder
         $faker = Faker::create();
 
         foreach (range(1, 10) as $index) {
+            $imageName = $faker->image(storage_path('app/public/images'), 640, 480, null, false);
+
             DB::table('biens')->insert([
                 'titre' => $faker->sentence(3),
                 'description' => $faker->paragraph,
@@ -23,7 +25,8 @@ class BiensTableSeeder extends Seeder
                 'disponible' => $faker->boolean,
                 'type_annonce' => $faker->randomElement(['vente', 'location']),
                 'type' => $faker->randomElement(['appartement', 'studio','magasin','terrain','maison']),
-                'imagePath' => "images/image.jpg",
+//                'imagePath' => "images/image.jpg",
+                'imagePath' => 'storage/images/' . $imageName,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
