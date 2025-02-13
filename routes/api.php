@@ -61,8 +61,8 @@ Route::apiResource('biens', BienController::class);
 //Route::delete('/biens/{id}', [BienController::class, 'destroy']);
 Route::apiResource('update',\App\Http\Controllers\UpdateController::class);
 
-Route::get('locationBien', [\App\Http\Controllers\BienController::class, 'location']);
-Route::get('venteBien', [\App\Http\Controllers\BienController::class, 'vente']);
+Route::get('location', [\App\Http\Controllers\BienController::class, 'location']);
+Route::get('vente', [\App\Http\Controllers\BienController::class, 'vente']);
 
 // Routes for users
 Route::get('users', [\App\Http\Controllers\UserController::class, 'index']);

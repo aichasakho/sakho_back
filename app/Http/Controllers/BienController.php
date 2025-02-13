@@ -132,14 +132,35 @@ class BienController extends Controller
     public function location()
     {
 
-        $bien = Bien::all()->where('type_annonce', 'location')->get();
-        return response()->json($bien);
-    }
+        $bien = Bien::where('type_annonce', 'location')->get();
+        return response()->json($bien->map(function ($bien) {
+
+            // Vérifiez si l'imagePath est une URL externe
+            if (filter_var($bien->imagePath, FILTER_VALIDATE_URL)) {
+                // Gardez l'URL telle quelle si elle est externe
+                $bien->imageUrl = $bien->imagePath;
+            } else {
+                // Préfixez avec le chemin local pour les images internes
+                $bien->imageUrl = asset('images/'. $bien->imagePath);
+            }
+            return $bien;
+        }),200);    }
 
     public function vente()
     {
 
-        $bien = Bien::all()->where('type_annonce', 'vente')->get();
-        return response()->json($bien);
+        $bien = Bien::where('type_annonce', 'vente')->get();
+        return response()->json($bien->map(function ($bien) {
+
+            // Vérifiez si l'imagePath est une URL externe
+            if (filter_var($bien->imagePath, FILTER_VALIDATE_URL)) {
+                // Gardez l'URL telle quelle si elle est externe
+                $bien->imageUrl = $bien->imagePath;
+            } else {
+                // Préfixez avec le chemin local pour les images internes
+                $bien->imageUrl = asset('images/'. $bien->imagePath);
+            }
+            return $bien;
+        }),200);
     }
 }
