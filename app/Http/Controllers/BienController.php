@@ -69,8 +69,16 @@ class BienController extends Controller
     public function show(string $id)
     {
         $bien = Bien::findOrFail($id);
-        return response()->json($bien, 201);
+        // Vérifiez si l'imagePath est une URL externe ou un chemin local
+        if (filter_var($bien->imagePath, FILTER_VALIDATE_URL)) {
+            // URL externe
+            $bien->imageUrl = $bien->imagePath;
+        } else {
+            // URL locale (préfixée avec le chemin des assets)
+            $bien->imageUrl = asset('images/' . $bien->imagePath);
+        }
 
+        return response()->json($bien, 200);
     }
 
     public function update(Request $request, $id)

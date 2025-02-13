@@ -31,6 +31,9 @@ use Illuminate\Support\Facades\Route;
 //Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 //Route::post('/register', [UserController::class, 'register']);
 
+Route::middleware('auth:sanctum')->get('/user/profile', function (Request $request) {
+    return $request->user();
+});
 
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'dashboard']);
@@ -48,8 +51,7 @@ Route::middleware(['auth:sanctum', 'role:user'])->group(function () {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-;
+Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 
 //Biens
