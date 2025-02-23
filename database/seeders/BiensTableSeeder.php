@@ -19,6 +19,8 @@ class BiensTableSeeder extends Seeder
             'apart5.jpg',
         ];
         foreach (range(1, 10) as $index) {
+            $imageName = $faker->image(storage_path('app/public/images'), 640, 480, null, false);
+
             DB::table('biens')->insert([
                 'titre' => $faker->sentence(3),
                 'description' => $faker->paragraph,
@@ -28,9 +30,7 @@ class BiensTableSeeder extends Seeder
                 'nombre_douches' => $faker->numberBetween(1, 6),
                 'disponible' => $faker->boolean,
                 'type_annonce' => $faker->randomElement(['vente', 'location']),
-                //'imagePath' => "images/image.jpg", // le chemin n'existait pas raison pour laquelle il etait impossible d'enregistrer des images valide dans la base
-                //'imagePath' => "https://picsum.photos/640/480?random=" . $index, // permet de generer des images sur internet mais pas des image d'appartement
-                'imagePath' => $faker->randomElement($imageFiles),
+               'imagePath' => $faker->randomElement($imageFiles),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
