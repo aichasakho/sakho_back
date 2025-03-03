@@ -26,7 +26,7 @@ class BienController extends Controller
             if (filter_var($bien->imagePath, FILTER_VALIDATE_URL)) {
                 $bien->imageUrl = $bien->imagePath; // Si c'est une URL externe, on ne change rien
             } else {
-                $bien->imageUrl = "http://192.168.43.172:8000/images/" . $bien->imagePath; // Ajout de l'IP locale
+                $bien->imageUrl = "http://127.0.0.1:8000/images/" . $bien->imagePath; // Ajout de l'IP locale
             }
             return $bien;
         }), 200);
