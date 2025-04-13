@@ -11,7 +11,13 @@ class BiensTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-
+        $imageFiles = [
+            'apart1.jpg',
+            'apart2.jpg',
+            'apart3.jpg',
+            'apart4.jpg',
+            'apart5.jpg',
+        ];
         foreach (range(1, 10) as $index) {
             $imageName = $faker->image(storage_path('app/public/images'), 640, 480, null, false);
 
@@ -24,7 +30,7 @@ class BiensTableSeeder extends Seeder
                 'nombre_douches' => $faker->numberBetween(1, 6),
                 'disponible' => $faker->boolean,
                 'type_annonce' => $faker->randomElement(['vente', 'location']),
-                'imagePath' => 'storage/images/' . $imageName, 
+               'imagePath' => $faker->randomElement($imageFiles),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

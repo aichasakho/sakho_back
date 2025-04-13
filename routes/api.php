@@ -31,6 +31,9 @@ use Illuminate\Support\Facades\Route;
 //Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 //Route::post('/register', [UserController::class, 'register']);
 
+Route::middleware('auth:sanctum')->get('/user/profile', function (Request $request) {
+    return $request->user();
+});
 
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'dashboard']);
@@ -48,18 +51,18 @@ Route::middleware(['auth:sanctum', 'role:user'])->group(function () {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-;
+Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 
 //Biens
 Route::apiResource('biens', BienController::class);
-Route::put('/biens/{id}', [BienController::class, 'update']);
-Route::post('/biens', [BienController::class, 'store']);
-Route::delete('/biens/{id}', [BienController::class, 'destroy']);
+//Route::put('/biens/{id}', [BienController::class, 'update']);
+//Route::post('/biens', [BienController::class, 'store']);
+//Route::delete('/biens/{id}', [BienController::class, 'destroy']);
+Route::apiResource('update',\App\Http\Controllers\UpdateController::class);
 
-Route::get('locationBien', [\App\Http\Controllers\BienController::class, 'location']);
-Route::get('venteBien', [\App\Http\Controllers\BienController::class, 'vente']);
+Route::get('location', [\App\Http\Controllers\BienController::class, 'location']);
+Route::get('vente', [\App\Http\Controllers\BienController::class, 'vente']);
 
 // Routes for users
 Route::get('users', [\App\Http\Controllers\UserController::class, 'index']);

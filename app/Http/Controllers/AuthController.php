@@ -14,19 +14,12 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();  
-            $token = $user->createToken('YourAppName')->plainTextToken;  
-            
-           
+            $user = Auth::user();
+            $token = $user->createToken('MyApp')->plainTextToken;
             return response()->json([
                 'message' => 'Connexion réussie',
                 'token' => $token,
-                'user' => [
-                    'id' => $user->id,
-                    'nom_complet' => $user->nom_complet,
-                    'email' => $user->email,
-                    'role' => $user->role  
-                ]
+                'user' => $user,
             ]);
         }
 
