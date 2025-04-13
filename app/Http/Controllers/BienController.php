@@ -18,17 +18,18 @@ class BienController extends Controller
      */
     public function index()
     {
-        $ip = request()->ip();  // Récupère l'IP locale du serveur (ex: 192.168.1.100)
-
         $bien = Bien::all();
 
-        return response()->json($bien->map(function ($bien) use ($ip) {
-            if (filter_var($bien->imagePath, FILTER_VALIDATE_URL)) {
-                $bien->imageUrl = $bien->imagePath; // Si c'est une URL externe, on ne change rien
+        $baseUrl = config('app.url'); // Récupère la valeur APP_URL depuis .env
+        $imageBasePath = $baseUrl . '/images/';
+
+        return response()->json($bien->map(function ($item) use ($imageBasePath) {
+            if (!filter_var($item->imagePath, FILTER_VALIDATE_URL)) {
+                $item->imageUrl = $imageBasePath . $item->imagePath;
             } else {
-                $bien->imageUrl = "http://192.168.43.172:8000/images/" . $bien->imagePath; // Ajout de l'IP locale
+                $item->imageUrl = $item->imagePath;
             }
-            return $bien;
+            return $item;
         }), 200);
     }
 
