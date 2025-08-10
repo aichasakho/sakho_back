@@ -18,21 +18,20 @@ class BienController extends Controller
      */
     public function index()
     {
-
-
         $bien = Bien::all();
 
-        $baseUrl = config('app.url'); // Récupère la valeur APP_URL depuis .env
-        $imageBasePath = $baseUrl . '/images/';
+        return response()->json($bien->map(function ($bien) {
 
-        return response()->json($bien->map(function ($item) use ($imageBasePath) {
-            if (!filter_var($item->imagePath, FILTER_VALIDATE_URL)) {
-                $item->imageUrl = $imageBasePath . $item->imagePath;
+            // Vérifiez si l'imagePath est une URL externe
+            if (filter_var($bien->imagePath, FILTER_VALIDATE_URL)) {
+                // Gardez l'URL telle quelle si elle est externe
+                $bien->imageUrl = $bien->imagePath;
             } else {
-                $item->imageUrl = $item->imagePath;
+                // Préfixez avec le chemin local pour les images internes
+                $bien->imageUrl = asset('images/'. $bien->imagePath);
             }
-            return $item;
-        }), 200);
+            return $bien;
+        }),200);
     }
 
 
