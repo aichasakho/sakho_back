@@ -2,6 +2,7 @@ services:
   - type: web
     name: sakho-back
     env: docker
+    releaseCommand: php artisan migrate --force
     plan: free
     buildCommand: ""
     startCommand: ""
