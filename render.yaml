@@ -3,9 +3,10 @@ services:
     name: sakho-back
     env: docker
     plan: free
-    buildCommand: ""
+    buildCommand: |
+      composer install --no-dev
+      php artisan migrate --force
     startCommand: php artisan serve --host=0.0.0.0 --port=8080
-    initCommand: php artisan migrate --force
     envVars:
       - key: APP_ENV
         value: production
