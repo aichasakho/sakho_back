@@ -2,10 +2,10 @@ services:
   - type: web
     name: sakho-back
     env: docker
-    releaseCommand: php artisan migrate --force
     plan: free
     buildCommand: ""
-    startCommand: ""
+    startCommand: php artisan serve --host=0.0.0.0 --port=8080
+    initCommand: php artisan migrate --force
     envVars:
       - key: APP_ENV
         value: production
@@ -21,6 +21,7 @@ services:
         fromDatabase:
           name: sakho-db
           property: connectionString
+
 databases:
   - name: sakho-db
     plan: free
